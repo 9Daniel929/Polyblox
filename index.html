@@ -1,0 +1,50 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body { background: #1b1d1f; color: white; font-family: sans-serif; margin: 0; }
+        header { background: #232527; padding: 15px; display: flex; align-items: center; }
+        #search { padding: 8px; width: 300px; border-radius: 5px; border: none; }
+        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; padding: 20px; }
+        .game-card { background: #2e3033; padding: 10px; border-radius: 8px; text-align: center; cursor: pointer; }
+        .game-card img { width: 100%; border-radius: 5px; }
+        .game-card:hover { background: #3a3d41; }
+    </style>
+</head>
+<body>
+    <header>
+        <input type="text" id="search" placeholder="Search 100s of games..." onkeyup="searchGames()">
+    </header>
+    <div class="game-grid" id="gameGrid">
+        <!-- Games will be loaded here by JavaScript -->
+    </div>
+
+    <script>
+        // Example: List of 100 games
+        const games = Array.from({ length: 100 }, (_, i) => ({
+            id: i,
+            title: "Game " + (i + 1),
+            thumbnail: "https://via.placeholder.com"
+        }));
+
+        function renderGames(gameList) {
+            const grid = document.getElementById('gameGrid');
+            grid.innerHTML = gameList.map(game => `
+                <div class="game-card">
+                    <img src="${game.thumbnail}">
+                    <p>${game.title}</p>
+                </div>
+            `).join('');
+        }
+
+        function searchGames() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const filtered = games.filter(g => g.title.toLowerCase().includes(query));
+            renderGames(filtered);
+        }
+
+        renderGames(games); // Initial load
+    </script>
+</body>
+</html>
